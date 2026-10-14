@@ -265,46 +265,39 @@ export default function Works() {
     : websiteProjects.filter((p) => p.category === activeTab);
 
   return (
-    <section id="works" className="relative py-24 sm:py-28 lg:py-36 w-full overflow-hidden">
-      {/* Background Decor */}
-      <div className="absolute inset-0 -z-20 bg-[#0d0d0d]" />
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-purple-950/20 via-black to-purple-950/15" />
-      <div className="pointer-events-none absolute inset-0 -z-10 opacity-[0.05] [background-image:linear-gradient(rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.06)_1px,transparent_1px)] [background-size:60px_60px]" />
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[850px] h-[550px] rounded-full bg-purple-600/10 blur-[130px] -z-10 pointer-events-none" />
+    <section id="works" className="relative py-24 sm:py-28 lg:py-36 w-full overflow-hidden" style={{ background: '#0c0c0c', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+      {/* Decorative section number */}
+      <div className="absolute top-0 right-0 section-number pointer-events-none select-none pr-8 pt-4" aria-hidden="true">03</div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 w-full">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10 w-full">
         {/* Section Header */}
-        <div className="max-w-3xl mb-12 sm:mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-300 text-xs font-medium tracking-widest uppercase mb-6">
-            <span className="w-1.5 h-1.5 rounded-full bg-purple-400" />
-            Our Works & Case Studies
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-14 sm:mb-16 pb-8" style={{ borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
+          <div>
+            <p className="label-tag mb-4">Our Works & Case Studies</p>
+            <h2 className="editorial-heading text-4xl sm:text-5xl lg:text-6xl" style={{ color: '#f0ede8' }}>
+              Built &{' '}
+              <span style={{ color: '#c8f752' }}>Delivered</span>
+            </h2>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-[1.15]">
-            Handcrafted Web Experiences{' '}
-            <span className="bg-gradient-to-r from-purple-300 via-purple-400 to-pink-300 bg-clip-text text-transparent">
-              That Deliver Results
-            </span>
-          </h2>
-          <p className="mt-5 text-neutral-400 text-sm sm:text-base lg:text-lg leading-relaxed">
-            Take a tour through websites, web applications, and digital platforms designed and engineered by NextGen Labz for forward-thinking brands and founders.
+          <p className="text-sm sm:text-base leading-relaxed max-w-sm" style={{ color: '#a8a29e' }}>
+            Websites, web applications, and digital platforms crafted for forward-thinking brands and founders.
           </p>
         </div>
 
-        {/* Category Header & Filter Navigation */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 mb-8 border-b border-white/5">
-          {/* Main Website Development Category Title */}
+        {/* Category Filter Navigation */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 mb-8" style={{ borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
           <div className="flex items-center gap-3">
-            <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-purple-600/30 to-purple-500/10 ring-1 ring-purple-400/30 flex items-center justify-center text-lg select-none shadow-sm shadow-purple-900/50">
+            <div className="h-8 w-8 rounded-lg flex items-center justify-center text-base select-none" style={{ background: 'rgba(200,247,82,0.1)', border: '1px solid rgba(200,247,82,0.2)' }}>
               🌐
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="text-base sm:text-lg font-bold text-white tracking-tight">Website Development</h3>
-                <span className="text-[11px] font-mono text-purple-300 bg-purple-500/10 px-2 py-0.5 rounded-full border border-purple-500/20">
-                  {websiteProjects.length} Websites
+                <h3 className="text-base font-bold tracking-tight" style={{ color: '#f0ede8', fontFamily: 'var(--font-display)' }}>Website Development</h3>
+                <span className="text-[11px] font-mono px-2 py-0.5 rounded-full" style={{ color: '#c8f752', background: 'rgba(200,247,82,0.08)', border: '1px solid rgba(200,247,82,0.2)' }}>
+                  {websiteProjects.length} sites
                 </span>
               </div>
-              <p className="text-xs text-neutral-400">Production-grade storefronts, SaaS platforms, and enterprise solutions</p>
+              <p className="text-xs" style={{ color: '#57534e' }}>Production-grade storefronts, SaaS platforms, enterprise solutions</p>
             </div>
           </div>
 
@@ -318,14 +311,14 @@ export default function Works() {
                 <button
                   key={cat}
                   onClick={() => setActiveTab(cat)}
-                  className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all duration-300 flex items-center gap-1.5 ${
-                    activeTab === cat
-                      ? 'bg-purple-600 text-white shadow-md shadow-purple-600/40 ring-1 ring-purple-400'
-                      : 'bg-neutral-900/80 text-neutral-400 hover:text-white hover:bg-neutral-800 border border-white/5'
-                  }`}
+                  className="px-3.5 py-1.5 rounded-full text-xs font-medium transition-all duration-300 flex items-center gap-1.5"
+                  style={activeTab === cat
+                    ? { background: '#c8f752', color: '#0c0c0c' }
+                    : { background: 'rgba(255,255,255,0.04)', color: '#a8a29e', border: '1px solid rgba(255,255,255,0.07)' }
+                  }
                 >
                   <span>{cat}</span>
-                  <span className={`text-[10px] px-1.5 py-0.2 rounded-full ${activeTab === cat ? 'bg-purple-800/80 text-purple-200' : 'bg-neutral-800 text-neutral-500'}`}>
+                  <span className="text-[10px] px-1.5 rounded-full" style={activeTab === cat ? { background: 'rgba(0,0,0,0.2)' } : { background: 'rgba(255,255,255,0.06)', color: '#57534e' }}>
                     {count}
                   </span>
                 </button>
@@ -342,34 +335,23 @@ export default function Works() {
         </div>
 
         {/* Bottom Call to Action */}
-        <div className="mt-16 sm:mt-24 p-8 sm:p-12 rounded-3xl relative overflow-hidden bg-gradient-to-br from-neutral-900/90 via-purple-950/20 to-neutral-950 border border-purple-500/20 shadow-2xl">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="mt-16 sm:mt-24 p-8 sm:p-12 rounded-2xl relative overflow-hidden" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.07)' }}>
           <div className="relative flex flex-col lg:flex-row lg:items-center justify-between gap-8">
             <div className="max-w-2xl">
-              <span className="text-xs font-semibold tracking-widest uppercase text-purple-400">
-                Ready to transform your digital presence?
-              </span>
-              <h3 className="mt-2 text-2xl sm:text-3xl font-bold text-white tracking-tight">
+              <p className="label-tag mb-3">Ready to transform your digital presence?</p>
+              <h3 className="editorial-heading text-2xl sm:text-3xl lg:text-4xl" style={{ color: '#f0ede8' }}>
                 Let's build your brand's next digital benchmark.
               </h3>
-              <p className="mt-3 text-sm text-neutral-400 leading-relaxed">
-                Whether you need a high-converting landing page, an e-commerce storefront, or a full-scale web application, we take you from concept to launch with velocity and precision.
+              <p className="mt-3 text-sm leading-relaxed" style={{ color: '#a8a29e' }}>
+                From high-converting landing pages to full-scale web apps — concept to launch with velocity and precision.
               </p>
             </div>
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 flex-shrink-0">
-              <a
-                href="/quote"
-                className="inline-flex items-center justify-center rounded-full bg-purple-600 hover:bg-purple-500 px-7 py-3.5 text-sm font-semibold text-white shadow-xl shadow-purple-600/30 transition-all duration-300 hover:scale-[1.03] hover:shadow-purple-600/50"
-              >
-                <span>Start a Project</span>
-                <svg className="ml-2 h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M12 5l7 7-7 7" />
-                </svg>
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 flex-shrink-0">
+              <a href="/quote" className="btn-primary">
+                Start a Project
+                <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M12 5l7 7-7 7" /></svg>
               </a>
-              <a
-                href="/services"
-                className="inline-flex items-center justify-center rounded-full border border-neutral-700 hover:border-purple-400 bg-neutral-900/60 hover:bg-neutral-800 px-6 py-3.5 text-sm font-medium text-neutral-300 hover:text-white transition-all duration-300"
-              >
+              <a href="/services" className="btn-ghost">
                 Explore Services
               </a>
             </div>

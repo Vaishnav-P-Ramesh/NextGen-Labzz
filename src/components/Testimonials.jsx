@@ -1,12 +1,11 @@
-import React from 'react'
+﻿import React from 'react'
 import arcwaveLogo from '../assets/clients/arcwave.svg'
 import fluxgridLogo from '../assets/clients/fluxgrid.svg'
 import nimbusLogo from '../assets/clients/nimbus.svg'
 
-// Three curated testimonials with photos & real logo assets
 const testimonials = [
   {
-    quote: 'They moved from concept to polished MVP in weeks—communication and craftsmanship were stellar the whole way.',
+    quote: 'They moved from concept to polished MVP in weeksâ€”communication and craftsmanship were stellar the whole way.',
     author: 'Sarah Mitchell',
     role: 'Product Lead',
     company: 'ArcWave',
@@ -39,57 +38,67 @@ const clientLogos = [
 
 function Testimonials() {
   return (
-    <section id="testimonials" className="relative py-24 sm:py-28 lg:py-32 w-full overflow-hidden">
-      {/* background layers */}
-      <div className="absolute inset-0 -z-20 bg-[#121212]" />
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_60%_40%,rgba(168,85,247,0.12),transparent_60%)]" />
-      <div className="px-4 sm:px-6 md:px-8 max-w-7xl mx-auto relative w-full">
-        <div className="max-w-3xl w-full">
-          <span className="inline-block text-[11px] font-medium tracking-[0.35em] uppercase text-purple-300/70 mb-4">Testimonials</span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-white leading-tight break-words">Client feedback & logos</h2>
-          <p className="mt-4 text-neutral-400 text-sm sm:text-base max-w-xl leading-relaxed">A few words from teams who trusted us to design, build, and refine their products.</p>
+    <section id="testimonials" className="relative w-full overflow-hidden" style={{ background: '#111111', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+      {/* Decorative section number */}
+      <div className="absolute top-0 right-0 section-number pointer-events-none select-none pr-8 pt-4" aria-hidden="true">04</div>
+
+      <div className="px-5 sm:px-8 lg:px-10 max-w-7xl mx-auto relative py-24 sm:py-28 lg:py-36">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-14 sm:mb-16 pb-8" style={{ borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
+          <div>
+            <p className="label-tag mb-4">Testimonials</p>
+            <h2 className="editorial-heading text-4xl sm:text-5xl lg:text-6xl" style={{ color: '#f0ede8' }}>
+              Client{' '}
+              <span style={{ color: '#c8f752' }}>Feedback</span>
+            </h2>
+          </div>
+          <p className="text-sm sm:text-base leading-relaxed max-w-sm" style={{ color: '#a8a29e' }}>
+            A few words from teams who trusted us to design, build, and refine their products.
+          </p>
         </div>
 
         {/* Testimonials Grid */}
-        <div className="mt-14 grid gap-6 sm:gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-full">
+        <div className="grid gap-5 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-full">
           {testimonials.map((t, i) => (
             <figure
               key={i}
-              className="group relative rounded-2xl p-[1px] bg-gradient-to-br from-neutral-700/30 via-neutral-800/10 to-neutral-900/40 hover:from-purple-500/40 hover:via-neutral-800/10 hover:to-purple-900/20 transition-colors"
+              className="hover-card p-6 flex flex-col gap-5"
             >
-              <div className="relative h-full rounded-2xl bg-neutral-950/70 backdrop-blur-sm p-6 flex flex-col">
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500 bg-[radial-gradient(circle_at_20%_25%,rgba(168,85,247,0.18),transparent_65%)]" />
-                <div className="flex items-start gap-4 flex-1">
-                  <div className="relative h-14 w-14">
-                    <div className="h-14 w-14 rounded-full overflow-hidden ring-2 ring-white/10 shadow shadow-black/40">
-                      <img src={t.photo} alt={t.author} className="h-full w-full object-cover" loading="lazy" />
-                    </div>
-                    <img src={t.logo} alt={t.company + ' logo'} className="h-6 w-6 object-contain absolute -bottom-1 -right-1 rounded-md ring-1 ring-white/15 bg-neutral-900/90 p-0.5" />
+              {/* Quote mark */}
+              <span className="text-3xl font-bold leading-none" style={{ color: '#c8f752', fontFamily: 'var(--font-display)', lineHeight: 1 }}>"</span>
+
+              {/* Quote text */}
+              <blockquote className="text-sm sm:text-base leading-relaxed flex-1" style={{ color: '#a8a29e' }}>
+                {t.quote}
+              </blockquote>
+
+              {/* Author */}
+              <figcaption className="flex items-center gap-3 pt-4" style={{ borderTop: '1px solid rgba(255,255,255,0.07)' }}>
+                <div className="relative h-10 w-10 shrink-0">
+                  <div className="h-10 w-10 rounded-full overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.1)' }}>
+                    <img src={t.photo} alt={t.author} className="h-full w-full object-cover" loading="lazy" />
                   </div>
-                  <blockquote className="text-sm sm:text-[15px] leading-relaxed text-neutral-300 relative">
-                    <span className="block text-purple-400/80 text-lg leading-none mb-2">“</span>
-                    {t.quote}
-                    <span className="block text-purple-400/80 text-lg leading-none mt-2">”</span>
-                  </blockquote>
+                  <img src={t.logo} alt={t.company + ' logo'} className="h-5 w-5 object-contain absolute -bottom-0.5 -right-0.5 rounded-md p-0.5"
+                    style={{ background: '#1a1a1a', border: '1px solid rgba(255,255,255,0.1)' }} />
                 </div>
-                <figcaption className="mt-6 flex flex-col text-xs sm:text-sm">
-                  <span className="font-medium text-neutral-200">{t.author}</span>
-                  <span className="text-neutral-500">{t.role} · {t.company}</span>
-                </figcaption>
-                <div className="pointer-events-none absolute inset-px rounded-[15px] ring-1 ring-white/5 group-hover:ring-purple-400/30 transition" />
-              </div>
+                <div>
+                  <p className="text-sm font-semibold" style={{ color: '#f0ede8' }}>{t.author}</p>
+                  <p className="text-xs" style={{ color: '#57534e' }}>{t.role} Â· {t.company}</p>
+                </div>
+              </figcaption>
             </figure>
           ))}
         </div>
 
-        {/* Logos Row */}
-        <div className="mt-20">
-          <p className="text-[11px] tracking-wider uppercase text-neutral-500 font-medium mb-5">Featured partners</p>
-          <div className="flex flex-wrap gap-5 sm:gap-8">
-            {clientLogos.map((c,i) => (
-              <div key={i} className="inline-flex items-center gap-3 rounded-xl bg-neutral-900/60 ring-1 ring-neutral-700/50 px-4 py-2.5 hover:ring-purple-400/40 transition">
-                <img src={c.logo} alt={c.name + ' logo'} className="h-8 w-8 rounded-md object-contain" loading="lazy" />
-                <span className="text-sm font-medium text-neutral-300">{c.name}</span>
+        {/* Partner Logos Row */}
+        <div className="mt-16 sm:mt-20">
+          <p className="label-tag mb-6">Featured partners</p>
+          <div className="flex flex-wrap gap-3">
+            {clientLogos.map((c, i) => (
+              <div key={i} className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-full transition-all duration-300"
+                style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
+                <img src={c.logo} alt={c.name + ' logo'} className="h-6 w-6 rounded object-contain" loading="lazy" />
+                <span className="text-sm font-medium" style={{ color: '#a8a29e' }}>{c.name}</span>
               </div>
             ))}
           </div>
@@ -100,3 +109,4 @@ function Testimonials() {
 }
 
 export default Testimonials
+

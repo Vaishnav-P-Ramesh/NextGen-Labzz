@@ -1,97 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
-body {
-    font-family: Poppins, sans-serif;
-    background-color: #171717;
-    color: #ffffff;
-    overflow-x: hidden; /* Prevent accidental horizontal scroll on small devices */
+:root {
+  --purple: #6b3fd4;
+  --purple-bright: #8b5cf6;
+  --purple-deep: #4c1d95;
+  --purple-soft: #a78bfa;
+  --black: #0a0a0a;
+  --ink: #111111;
+  --paper: #efecf2;
+  --paper-warm: #e8e3ef;
+  --white: #ffffff;
+  --muted: rgba(17, 17, 17, 0.55);
+  --muted-light: rgba(255, 255, 255, 0.62);
+  --line: rgba(17, 17, 17, 0.12);
+  --line-light: rgba(255, 255, 255, 0.14);
+  --radius-pill: 999px;
+  --radius-card: 32px;
+  --radius-panel: 44px;
+  --page-pad: clamp(0.55rem, 1.4vw, 0.85rem);
+  --font-display: 'Syne', sans-serif;
+  --font-body: 'Outfit', sans-serif;
 }
 
-/* Ensure all elements respect viewport bounds */
-* {
+*, *::before, *::after {
   box-sizing: border-box;
-  max-width: 100%;
 }
 
-/* Fix for potential wide elements */
 html {
-  overflow-x: hidden;
+  scroll-behavior: smooth;
 }
 
-/* Global focus visibility enhancement */
-:focus-visible {
-  outline: 2px solid #A855F7;
-  outline-offset: 2px;
-}/* Skip link */
-.skip-link {
-  position: absolute;
-  top: -200px;
-  left: 0.75rem;
-  background: #1f1f1f;
-  color: #fff;
-  padding: 0.75rem 1rem;
-  border-radius: 0.5rem;
-  font-size: 0.85rem;
-  font-weight: 500;
-  box-shadow: 0 4px 14px -2px rgba(0,0,0,0.5);
-  transition: top .25s ease, opacity .25s ease;
-  opacity: 0;
-  z-index: 1000;
-}
-.skip-link:focus-visible {
-  top: 0.75rem;
-  opacity: 1;
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  background: var(--black);
+  color: var(--ink);
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Auto-scrolling animation for technology carousel */
-/* (Legacy – replaced by JS requestAnimationFrame carousel; kept for potential reuse) */
-@keyframes scroll {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
+a {
+  color: inherit;
+  text-decoration: none;
 }
 
-.animate-scroll {
-  animation: scroll 28s linear infinite;
+img {
+  max-width: 100%;
+  display: block;
 }
 
-/* Pause animation on hover */
-.animate-scroll:hover {
-  animation-play-state: paused;
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
-/* Slow down on very small screens for readability */
-@media (max-width: 480px) {
-  .animate-scroll {
-    animation-duration: 36s;
-  }
+::selection {
+  background: rgba(107, 63, 212, 0.28);
+  color: #111;
 }
-
-/* Speed up slightly on very large screens */
-@media (min-width: 1440px) {
-  .animate-scroll {
-    animation-duration: 24s;
-  }
-}
-
-/* Respect reduced motion preference */
-@media (prefers-reduced-motion: reduce) {
-  .animate-scroll {
-    animation: none;
-  }
-}
-
-/* Carousel edge gradient helpers (used via absolute positioned elements) */
-.carousel-edge-left, .carousel-edge-right {
-  pointer-events: none;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 110px;
-  z-index: 10;
-}
-.carousel-edge-left { left: 0; background: linear-gradient(to right,#171717 0%,rgba(23,23,23,0.85)40%,rgba(23,23,23,0)); }
-.carousel-edge-right { right: 0; background: linear-gradient(to left,#171717 0%,rgba(23,23,23,0.85)40%,rgba(23,23,23,0)); }

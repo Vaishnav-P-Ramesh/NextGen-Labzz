@@ -1,51 +1,169 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useState, useEffect, useRef } from 'react'
+import { Link, useLocation } from 'react-router-dom'
+import gsap from 'gsap'
+import Magnetic from './Magnetic'
 
 function Navbar() {
   const [open, setOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const location = useLocation()
+  const isHome = location.pathname === '/'
+  const menuRef = useRef(null)
+
+  useEffect(() => {
+    setOpen(false)
+  }, [location.pathname, location.hash])
+
+  useEffect(() => {
+    document.body.style.overflow = open ? 'hidden' : ''
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [open])
+
+  useEffect(() => {
+    const update = () => {
+      if (!isHome) {
+        setScrolled(true)
+        return
+      }
+      const hero = document.querySelector('.aw-hero')
+      if (!hero) {
+        setScrolled(window.scrollY > 40)
+        return
+      }
+      setScrolled(hero.getBoundingClientRect().bottom < 100)
+    }
+
+    update()
+    window.addEventListener('scroll', update, { passive: true })
+    window.addEventListener('resize', update)
+    return () => {
+      window.removeEventListener('scroll', update)
+      window.removeEventListener('resize', update)
+    }
+  }, [isHome, location.pathname])
+
+  useEffect(() => {
+    const menu = menuRef.current
+    if (!menu) return undefined
+    const links = menu.querySelectorAll('.aw-menu-nav a')
+    const foot = menu.querySelector('.aw-menu-foot')
+
+    if (open) {
+      gsap.set(menu, { autoAlpha: 1 })
+      gsap.fromTo(
+        links,
+        { y: 40, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.55, stagger: 0.06, ease: 'power3.out', delay: 0.05 }
+      )
+      if (foot) {
+        gsap.fromTo(foot, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.45, delay: 0.28 })
+      }
+    } else {
+      gsap.set(menu, { autoAlpha: 0 })
+    }
+  }, [open])
+
+  const handleHashClick = (e, hash) => {
+    setOpen(false)
+    if (location.pathname === '/') {
+      e.preventDefault()
+      const el = document.querySelector(hash)
+      if (el) el.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+
+  const navItems = [
+    { label: '00 Home', to: '/' },
+    { label: '01 Services', to: '/#services', hash: '#services' },
+    { label: '02 Projects', to: '/#works', hash: '#works' },
+    { label: '03 About', to: '/about' },
+    { label: '04 Contacts', to: '/contact' },
+  ]
+
   return (
-    <header className="fixed top-0 inset-x-0 z-50 bg-transparent backdrop-blur-sm">
-      <nav className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8" aria-label="Main">
-        <div className="flex h-16 sm:h-18 md:h-20 items-center justify-between">
-          <Link to="/" className="flex items-center gap-2 shrink-0 group">
-            <img src="/Logo-White1.png" alt="NextGen Labz Logo" className="h-8 sm:h-9 w-auto transition-transform group-hover:scale-[1.03]" />
+    <>
+      <header className={`aw-nav ${scrolled ? 'aw-nav-scrolled' : ''}`}>
+        <div className="aw-nav-shell">
+          <Link to="/" className="aw-logo" aria-label="NextGen Labz, home">
+            nextgen<span>.</span>
           </Link>
-          <ul className="hidden md:flex items-center gap-6 lg:gap-8 text-[13px] lg:text-sm font-medium text-neutral-300">
-            <li><Link to="/" className="hover:text-white px-1 py-1 rounded focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-colors">Home</Link></li>
-            <li><Link to="/about" className="hover:text-white px-1 py-1 rounded focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-colors">About</Link></li>
-            <li><Link to="/contact" className="hover:text-white px-1 py-1 rounded focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-colors">Contact</Link></li>
-            <li><Link to="/services" className="hover:text-white px-1 py-1 rounded focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-colors">Services</Link></li>
-            <li><a href="/#works" className="hover:text-white px-1 py-1 rounded focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-colors">Works</a></li>
-            <li>
-              <Link to="/quote" className="inline-flex items-center gap-1 rounded-full bg-purple-600 px-5 lg:px-6 py-2 text-[11px] lg:text-xs text-white shadow-sm shadow-purple-600/40 hover:bg-purple-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition">Get Quote</Link>
-            </li>
-          </ul>
-          <button
-            type="button"
-            onClick={() => setOpen(o => !o)}
-            className="md:hidden inline-flex items-center justify-center rounded-lg h-10 w-10 text-neutral-300 hover:text-white hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-purple-500/60 transition"
-            aria-controls="mobile-nav"
-            aria-expanded={open}
-          >
-            <span className="sr-only">Toggle navigation</span>
-            <svg className={`h-6 w-6 transition-transform duration-200 ${open ? 'scale-0 opacity-0 absolute' : 'scale-100 opacity-100'}`} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg>
-            <svg className={`h-6 w-6 transition-transform duration-200 ${open ? 'scale-100 opacity-100' : 'scale-0 opacity-0'}`} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-          </button>
+
+          <div className="aw-nav-actions">
+            <Magnetic strength={0.35}>
+              <Link to="/contact" className="aw-pill aw-pill-ghost">
+                get in touch.
+              </Link>
+            </Magnetic>
+            <Magnetic strength={0.35}>
+              <button
+                type="button"
+                className="aw-pill aw-pill-menu"
+                onClick={() => setOpen(true)}
+                aria-expanded={open}
+                aria-controls="aw-menu"
+              >
+                menu.
+                <span className="aw-burger" aria-hidden="true">
+                  <i /><i />
+                </span>
+              </button>
+            </Magnetic>
+          </div>
         </div>
-      </nav>
-      <div id="mobile-nav" className={`md:hidden absolute inset-x-0 top-full bg-black/80 backdrop-blur-xl overflow-hidden transition-[max-height,opacity] duration-300 ${open ? 'max-h-72 opacity-100' : 'max-h-0 opacity-0'}`}>
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
-          <ul className="flex flex-col gap-1.5 pb-4 pt-2 text-[13px] font-medium text-neutral-300">
-            <li><Link onClick={() => setOpen(false)} to="/" className="block rounded px-3 py-2 hover:bg-neutral-800/70 hover:text-white focus:outline-none focus:ring-2 focus:ring-purple-500/40">Home</Link></li>
-            <li><Link onClick={() => setOpen(false)} to="/about" className="block rounded px-3 py-2 hover:bg-neutral-800/70 hover:text-white focus:outline-none focus:ring-2 focus:ring-purple-500/40">About</Link></li>
-            <li><Link onClick={() => setOpen(false)} to="/contact" className="block rounded px-3 py-2 hover:bg-neutral-800/70 hover:text-white focus:outline-none focus:ring-2 focus:ring-purple-500/40">Contact</Link></li>
-            <li><Link onClick={() => setOpen(false)} to="/services" className="block rounded px-3 py-2 hover:bg-neutral-800/70 hover:text-white focus:outline-none focus:ring-2 focus:ring-purple-500/40">Services</Link></li>
-            <li><a onClick={() => setOpen(false)} href="/#works" className="block rounded px-3 py-2 hover:bg-neutral-800/70 hover:text-white focus:outline-none focus:ring-2 focus:ring-purple-500/40">Works</a></li>
-            <li><Link onClick={() => setOpen(false)} to="/quote" className="mt-1 inline-flex items-center gap-1 rounded-full bg-purple-600 px-5 py-2 text-[11px] text-white shadow-sm shadow-purple-600/40 hover:bg-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/60 self-start">Get Quote</Link></li>
+      </header>
+
+      <div
+        id="aw-menu"
+        ref={menuRef}
+        className={`aw-menu ${open ? 'aw-menu-open' : ''}`}
+        aria-hidden={!open}
+      >
+        <div className="aw-menu-top">
+          <Link to="/" className="aw-logo" onClick={() => setOpen(false)}>
+            nextgen<span>.</span>
+          </Link>
+          <Magnetic strength={0.35}>
+            <button
+              type="button"
+              className="aw-pill aw-pill-menu"
+              onClick={() => setOpen(false)}
+              aria-label="Close menu"
+            >
+              close.
+            </button>
+          </Magnetic>
+        </div>
+
+        <nav className="aw-menu-nav" aria-label="Site">
+          <ul>
+            {navItems.map(({ label, to, hash }) => (
+              <li key={label}>
+                {hash ? (
+                  <Link to={to} onClick={(e) => handleHashClick(e, hash)}>
+                    {label}
+                  </Link>
+                ) : (
+                  <Link to={to} onClick={() => setOpen(false)}>
+                    {label}
+                  </Link>
+                )}
+              </li>
+            ))}
           </ul>
+        </nav>
+
+        <div className="aw-menu-foot">
+          <a href="mailto:hello@nextgenlabz.com">Say hello: hello@nextgenlabz.com</a>
+          <div className="aw-menu-socials">
+            <a href="https://www.instagram.com/nextgen.labz/" target="_blank" rel="noopener noreferrer">
+              Instagram
+            </a>
+          </div>
         </div>
       </div>
-    </header>
+    </>
   )
 }
 
