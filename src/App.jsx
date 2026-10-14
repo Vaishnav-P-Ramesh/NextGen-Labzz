@@ -10,7 +10,7 @@ import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import PageTransition from './components/PageTransition'
 import CustomCursor from './components/CustomCursor'
-import useSmoothScroll from './hooks/useSmoothScroll'
+import useSmoothScroll, { getLenis, scrollToTop } from './hooks/useSmoothScroll'
 import './App.css'
 
 function ScrollToTop() {
@@ -19,11 +19,21 @@ function ScrollToTop() {
     if (hash) {
       const el = document.querySelector(hash)
       if (el) {
-        el.scrollIntoView({ behavior: 'instant', block: 'start' })
+        const lenis = getLenis()
+        if (lenis) lenis.scrollTo(el, { immediate: true, offset: -20 })
+        else el.scrollIntoView({ behavior: 'instant', block: 'start' })
         return
       }
     }
-    window.scrollTo({ top: 0, behavior: 'instant' })
+    // Reset native + Lenis so new routes always open at the top
+    scrollToTop(true)
+    // Catch late layout / page-transition settling
+    const t = window.setTimeout(() => scrollToTop(true), 50)
+    const t2 = window.setTimeout(() => scrollToTop(true), 420)
+    return () => {
+      window.clearTimeout(t)
+      window.clearTimeout(t2)
+    }
   }, [pathname, hash])
   return null
 }

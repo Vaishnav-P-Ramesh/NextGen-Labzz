@@ -228,36 +228,41 @@ function Preloader({ done }) {
   )
 }
 
+function isCompactDeck() {
+  return typeof window !== 'undefined' && window.matchMedia('(max-width: 700px)').matches
+}
+
 /** Awake deck poses — past cards peek above with fan tilts; next slides up from below */
 function cardPose(offset) {
+  const compact = isCompactDeck()
   // offset = index - active
   if (offset === 0) {
-    return { x: 0, y: 0, rotate: -1.4, scale: 1, opacity: 1, zIndex: 60 }
+    return { x: 0, y: 0, rotate: compact ? -0.8 : -1.4, scale: 1, opacity: 1, zIndex: 60 }
   }
 
   // Future cards — waiting below the stack
   if (offset > 0) {
     const step = Math.min(offset, 3)
     return {
-      x: step % 2 === 0 ? 6 : -4,
-      y: 72 + step * 48,
-      rotate: 3.5 + step * 1.2,
+      x: compact ? 0 : step % 2 === 0 ? 6 : -4,
+      y: compact ? 36 + step * 28 : 72 + step * 48,
+      rotate: compact ? 1.5 : 3.5 + step * 1.2,
       scale: 0.97,
-      opacity: step === 1 ? 1 : 0,
+      opacity: step === 1 ? (compact ? 0.55 : 1) : 0,
       zIndex: 20 - step,
     }
   }
 
   // Past cards — stacked behind, top strip peeking above (Awake deck)
   const step = Math.min(Math.abs(offset), 4)
-  const tilts = [-6.5, 5.2, -4.8, 7]
-  const xs = [-22, 24, -16, 28]
+  const tilts = compact ? [-3.2, 2.8, -2.4, 3.5] : [-6.5, 5.2, -4.8, 7]
+  const xs = compact ? [-8, 10, -6, 12] : [-22, 24, -16, 28]
   return {
     x: xs[step - 1] ?? (step % 2 ? 18 : -18),
-    y: -(28 + step * 20),
+    y: compact ? -(14 + step * 12) : -(28 + step * 20),
     rotate: tilts[step - 1] ?? (step % 2 ? 5 : -5),
     scale: 1 - step * 0.01,
-    opacity: step > 3 ? 0 : 1,
+    opacity: step > (compact ? 2 : 3) ? 0 : 1,
     zIndex: 60 - step,
   }
 }

@@ -37,23 +37,42 @@ export default function NeedSection() {
     const el = wheelRef.current
     if (!el) return undefined
 
-    const onWheel = (e) => {
-      if (Math.abs(e.deltaY) < 8) return
-      e.preventDefault()
+    const step = (dir) => {
       if (lockRef.current) return
       lockRef.current = true
       window.setTimeout(() => {
         lockRef.current = false
       }, 320)
-
       setIndex((i) => {
-        if (e.deltaY > 0) return Math.min(needOptions.length - 1, i + 1)
+        if (dir > 0) return Math.min(needOptions.length - 1, i + 1)
         return Math.max(0, i - 1)
       })
     }
 
+    const onWheel = (e) => {
+      if (Math.abs(e.deltaY) < 8) return
+      e.preventDefault()
+      step(e.deltaY > 0 ? 1 : -1)
+    }
+
+    let startY = 0
+    const onTouchStart = (e) => {
+      startY = e.touches[0].clientY
+    }
+    const onTouchEnd = (e) => {
+      const dy = e.changedTouches[0].clientY - startY
+      if (Math.abs(dy) < 36) return
+      step(dy < 0 ? 1 : -1)
+    }
+
     el.addEventListener('wheel', onWheel, { passive: false })
-    return () => el.removeEventListener('wheel', onWheel)
+    el.addEventListener('touchstart', onTouchStart, { passive: true })
+    el.addEventListener('touchend', onTouchEnd, { passive: true })
+    return () => {
+      el.removeEventListener('wheel', onWheel)
+      el.removeEventListener('touchstart', onTouchStart)
+      el.removeEventListener('touchend', onTouchEnd)
+    }
   }, [])
 
   return (

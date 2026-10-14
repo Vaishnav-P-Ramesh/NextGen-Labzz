@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import Magnetic from './Magnetic'
+import { scrollToTop } from '../hooks/useSmoothScroll'
 
 function Footer() {
   const year = new Date().getFullYear()
@@ -60,7 +61,7 @@ function Footer() {
         <button
           type="button"
           className="aw-back-top"
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          onClick={() => scrollToTop(false)}
         >
           Back to top
         </button>
